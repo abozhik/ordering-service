@@ -1,0 +1,7 @@
+# Project exclude paths
+/target/
+.idea
+*.iws
+*.iml
+*.ipr
+/src/main/resources/db.properties
