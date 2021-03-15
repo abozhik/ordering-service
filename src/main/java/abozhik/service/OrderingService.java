@@ -1,40 +1,21 @@
 package abozhik.service;
 
-import abozhik.DbConnection;
 import abozhik.model.Ordering;
 import abozhik.model.OrderingItem;
-import abozhik.repository.OrderingItemsRepository;
-import abozhik.repository.OrderingRepository;
 
-import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.Optional;
 
-public class OrderingService {
+public interface OrderingService {
 
-    private final OrderingRepository orderingRepository = new OrderingRepository();
-    private final OrderingItemsRepository orderingItemsRepository = new OrderingItemsRepository();
+    long createOrdering(Ordering ordering);
 
-    public Long createOrdering(Ordering ordering) {
-       return orderingRepository.saveOrdering(ordering);
-    }
+    long addItemToOrdering(Long orderingId, OrderingItem orderingItem) throws SQLException;
 
-    public Long addItemToOrdering(Long orderingId, OrderingItem orderingItem) throws SQLException {
-        try(Connection connection = DbConnection.getConnection()) {
-            orderingItem.setOrderingId(orderingId);
-            return orderingItemsRepository.saveOrderingItem(connection, orderingItem);
-        }
-    }
+    void changeItemCount(Long orderingItemId, Long itemCount);
 
-    public void changeItemCount(Long orderingItemId, Long itemCount) {
-        orderingItemsRepository.updateItemCount(orderingItemId, itemCount);
-    }
+    Optional<Ordering> getOrdering(Long orderingId);
 
-    public Ordering getOrdering(Long orderingId) {
-        return orderingRepository.getOrderingWithItems(orderingId);
-    }
-
-    public void setAllOrderingDone() {
-        orderingRepository.setAllOrderingDone();
-    }
+    void setAllOrderingDone();
 
 }

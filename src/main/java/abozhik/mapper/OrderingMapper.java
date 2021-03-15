@@ -7,10 +7,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class OrderingMapper {
 
-    public Ordering map(ResultSet resultSet) {
+    public Optional<Ordering> map(ResultSet resultSet) {
         Ordering ordering = null;
         List<OrderingItem> orderingItemList = new ArrayList<>();
         try {
@@ -30,9 +31,9 @@ public class OrderingMapper {
                 item.setItemPrice(resultSet.getBigDecimal(8));
                 orderingItemList.add(item);
             }
-            return ordering;
+            return Optional.ofNullable(ordering);
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            return Optional.empty();
         }
     }
 }

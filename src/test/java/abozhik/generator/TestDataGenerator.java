@@ -4,8 +4,6 @@ import abozhik.model.Ordering;
 import abozhik.model.OrderingItem;
 
 import java.math.BigDecimal;
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -16,6 +14,14 @@ public class TestDataGenerator {
         Ordering ordering = new Ordering();
         ordering.setUserName(getRandomString());
         return ordering;
+    }
+
+    public List<Ordering> generateOrderingList(int size) {
+        List<Ordering> orderingList = new ArrayList<>();
+        for (int i = 0; i < size; i++) {
+            orderingList.add(generateOrdering());
+        }
+        return orderingList;
     }
 
     public OrderingItem generateOrderingItem() {
@@ -31,9 +37,7 @@ public class TestDataGenerator {
     }
 
     public String getRandomString() {
-        byte[] array = new byte[10];
-        new Random().nextBytes(array);
-        return new String(array, StandardCharsets.UTF_8);
+        return java.util.UUID.randomUUID().toString();
     }
 
     public Integer getRandomInt() {
